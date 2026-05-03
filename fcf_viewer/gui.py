@@ -11,7 +11,7 @@ from nfc.tag import Tag
 from nfc.tag.tt3 import BlockCode, ServiceCode, Type3TagCommandError
 from nfc.tag.tt3_sony import FelicaStandard
 
-from .cli import SYSTEM_CODE, fix_ic_code_map
+from .cli import SYSTEM_CODE, fix_ic_code_map, format_user_type
 
 BASIC_INFO_FIELDS: tuple[tuple[str, str], ...] = (
     ("user_type", "利用者区分"),
@@ -80,7 +80,7 @@ class FcfDataExtractor:
 
         data = blocks_data.decode("shift_jis", errors="ignore")
         return {
-            "user_type": data[0:2],
+            "user_type": format_user_type(data[0:2]),
             "personal_id": data[2:14],
             "reissue_count": data[14:15],
             "sex": data[15:16],

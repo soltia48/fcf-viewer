@@ -8,6 +8,34 @@ from nfc.tag.tt3_sony import FelicaStandard
 
 SYSTEM_CODE = 0xFE00
 
+USER_TYPE_NAMES: dict[str, str] = {
+    "01": "学生",
+    "02": "修士",
+    "03": "研究生",
+    "04": "科目等履修生",
+    "05": "聴講生",
+    "06": "依託学生①",
+    "07": "依託学生②",
+    "08": "大学院・研究生",
+    "11": "専任教員",
+    "19": "非常勤教員",
+    "21": "専任職員",
+    "22": "非常勤職員",
+    "28": "外部委託事業者",
+    "29": "パート・アルバイト",
+    "31": "卒業生",
+    "32": "父母",
+    "33": "その他親族",
+    "39": "ゲスト",
+}
+
+
+def format_user_type(user_type: str) -> str:
+    name = USER_TYPE_NAMES.get(user_type)
+    if name is None:
+        return user_type
+    return f"{user_type} ({name})"
+
 
 def print_section(title: str, *, leading_newline: bool = True) -> None:
     if leading_newline:
@@ -48,7 +76,7 @@ class FcfTagReporter:
         blocks_data_str = blocks_data.decode("shift_jis")
 
         user_type = blocks_data_str[0:2]
-        print_item("利用者区分", user_type)
+        print_item("利用者区分", format_user_type(user_type))
 
         personal_id = blocks_data_str[2:14]
         print_item("個人ID", personal_id)
