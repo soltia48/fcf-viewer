@@ -18,7 +18,7 @@ packages = [
 [tool.poetry]
 
 [tool.poetry.group.dev.dependencies]
-black = "^26.3.1"
+black = "^26.10.1"
 
 [tool.poetry.scripts]
 fcf-viewer = "fcf_viewer.cli:main"
